@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MidCraft Quiz</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+<style>
+  :root {
+    --bg: #1c2430;
+    --panel: #26303f;
+    --panel2: #2e3a4c;
+    --text: #eef2f7;
+    --muted: #9db0c5;
+    --gruen: #58b447;
+    --gruen-d: #3f8c32;
+    --blau: #4a90d9;
+    --gold: #f5c518;
+    --rot: #e05252;
+    --holz: #b07b45;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  header {
+    width: 100%;
+    background: linear-gradient(180deg, #141a23, #1a222d);
+    border-bottom: 4px solid var(--gruen);
+    padding: 14px 20px;
+    text-align: center;
+  }
+  header h1 { font-size: 1.5rem; letter-spacing: 1px; }
+  header .sub { color: var(--muted); font-size: .9rem; margin-top: 2px; }
+
+  main { width: 100%; max-width: 760px; padding: 22px 16px 60px; }
+
+  .karten { display: grid; gap: 14px; margin-top: 18px; }
+  .karte {
+    background: var(--panel);
+    border: 2px solid #3a4759;
+    border-radius: var(--radius);
+    padding: 18px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text);
+    font-size: 1.05rem;
+    transition: transform .08s, border-color .08s;
+    width: 100%;
+  }
+  .karte:hover { transform: translateY(-2px); border-color: var(--gruen); }
+  .karte .emoji { font-size: 1.6rem; margin-right: 10px; }
+  .karte .info { color: var(--muted); font-size: .85rem; margin-top: 6px; }
+  .karte.alle { border-color: var(--gold); }
+
+  .hinweis {
+    margin-top: 22px;
+    background: var(--panel2);
+    border-left: 4px solid var(--blau);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.5;
+  }
+
+  .topzeile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: .92rem;
+    color: var(--muted);
+  }
+  .balken {
+    flex: 1;
+    height: 10px;
+    background: var(--panel2);
+    border-radius: 6px;
+    margin: 0 14px;
+    overflow: hidden;
+  }
+  .balken > div {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gruen), #7ed06f);
+    width: 0;
+    transition: width .3s;
+  }
+
+  .frage-box {
+    background: var(--panel);
+    border: 2px solid #3a4759;
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .kat-tag {
+    display: inline-block;
+    font-size: .75rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--panel2);
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .frage { font-size: 1.15rem; line-height: 1.45; }
+
+  .code {
+    background: #16202b;
+    border: 1px solid #3a4759;
+    border-radius: 10px;
+    margin: 14px 0 4px;
+    padding: 12px 14px;
+    font-family: "SF Mono", Consolas, Menlo, monospace;
+    font-size: .95rem;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+  .code .z { display: block; white-space: pre; }
+  .code .blau { color: #7db6ea; }
+  .code .gruen { color: #8fd682; }
+  .code .braun { color: #d9a86c; }
+  .code .lila { color: #c79be0; }
+
+  .antworten { display: grid; gap: 10px; margin-top: 18px; }
+  .antwort {
+    background: var(--panel2);
+    border: 2px solid #3f4d61;
+    border-radius: 10px;
+    padding: 13px 15px;
+    text-align: left;
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color .08s, background .08s;
+  }
+  .antwort:hover:not([disabled]) { border-color: var(--blau); }
+  .antwort[disabled] { cursor: default; opacity: .75; }
+  .antwort.richtig { background: #2c5427; border-color: var(--gruen); opacity: 1; }
+  .antwort.falsch { background: #5b2b2b; border-color: var(--rot); opacity: 1; }
+
+  .feedback {
+    margin-top: 16px;
+    border-radius: 10px;
+    padding: 13px 15px;
+    font-size: .95rem;
+    line-height: 1.5;
+    display: none;
+  }
+  .feedback.an { display: block; }
+  .feedback.gut { background: #2c5427; }
+  .feedback.schlecht { background: #5b2b2b; }
+
+  .weiter {
+    margin-top: 16px;
+    background: var(--gruen);
+    border: none;
+    border-bottom: 4px solid var(--gruen-d);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 12px 26px;
+    cursor: pointer;
+    display: none;
+  }
+  .weiter.an { display: inline-block; }
+  .weiter:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+  .ende {
+    text-align: center;
+    background: var(--panel);
+    border: 2px solid #3a4759;
+    border-radius: var(--radius);
+    padding: 34px 22px;
+  }
+  .ende .big { font-size: 3.2rem; }
+  .ende h2 { margin: 10px 0 4px; }
+  .ende .score { font-size: 1.4rem; color: var(--gold); margin: 8px 0 4px; font-weight: 700; }
+  .ende .rang { color: var(--muted); margin-bottom: 18px; }
+  .ende .chat-tipp {
+    background: var(--panel2);
+    border-left: 4px solid var(--gold);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 0 auto 20px;
+    max-width: 420px;
+    text-align: left;
+    font-size: .92rem;
+    line-height: 1.5;
+  }
+  .nochmal { margin: 4px; }
+
+  /* Ranking / Bestenliste */
+  .rank-box {
+    margin-top: 22px;
+    background: var(--panel);
+    border: 2px solid #3a4759;
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    text-align: left;
+  }
+  .rank-box h3 { font-size: 1.05rem; margin-bottom: 10px; }
+  .rank-zeile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: var(--panel2);
+    margin-bottom: 6px;
+    font-size: .95rem;
+  }
+  .rank-zeile .platz { width: 2.2em; text-align: center; flex-shrink: 0; }
+  .rank-zeile .rname { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rank-zeile .rkat { flex-shrink: 0; }
+  .rank-zeile .rscore { color: var(--muted); flex-shrink: 0; }
+  .rank-zeile .rproz { color: var(--gold); font-weight: 600; width: 3.6em; text-align: right; flex-shrink: 0; }
+  .rank-fuss { color: var(--muted); font-size: .8rem; margin-top: 10px; line-height: 1.4; }
+  .eintrag-zeile {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 0 auto 18px;
+    max-width: 440px;
+    flex-wrap: wrap;
+  }
+  .eintrag-zeile input {
+    flex: 1;
+    min-width: 160px;
+    background: var(--panel2);
+    border: 2px solid #3f4d61;
+    border-radius: 10px;
+    color: var(--text);
+    padding: 10px 12px;
+    font-size: 1rem;
+  }
+  .eintrag-zeile input:focus { outline: none; border-color: var(--blau); }
+  .btn-eintragen {
+    background: var(--gold);
+    border: none;
+    border-bottom: 4px solid #b8940f;
+    border-radius: 10px;
+    color: #1c2430;
+    font-weight: 700;
+    font-size: .95rem;
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+  .btn-eintragen:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+  .versteckt { display: none; }
+  footer { color: #5c6b7d; font-size: .78rem; padding: 18px; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🧠 MidCraft Quiz</h1>
+  <div class="sub">Teste dein Wissen — ganz ohne Druck, aber mit Punkten!</div>
+</header>
+
+<main>
+  <!-- Startbildschirm -->
+  <section id="start">
+    <p style="color:var(--muted); line-height:1.5;">Such dir eine Kategorie aus. Jede Frage hat genau eine richtige Antwort — nach dem Klick siehst du sofort die Erklärung.</p>
+    <div class="karten">
+      <button class="karte" data-kat="code"><span class="emoji">🤖</span><b>Programmcode erraten</b>
+        <div class="info">Du siehst ein Roboter-Programm — was passiert, wenn es läuft? <span data-anzahl="code"></span></div></button>
+      <button class="karte" data-kat="prog"><span class="emoji">💻</span><b>Programmier-Wissen</b>
+        <div class="info">Bugs, Schleifen, Variablen &amp; Co — was steckt dahinter? <span data-anzahl="prog"></span></div></button>
+      <button class="karte" data-kat="mc"><span class="emoji">⛏️</span><b>Klötzchenwelt-Quiz</b>
+        <div class="info">Für echte Baumeister: Fragen rund um das berühmte Klötzchen-Spiel. <span data-anzahl="mc"></span></div></button>
+      <button class="karte" data-kat="mcpro"><span class="emoji">💎</span><b>Minecraft-Experten-Wissen</b>
+        <div class="info">Nur für echte Profis: das harte Fachwissen. <span data-anzahl="mcpro"></span></div></button>
+      <button class="karte alle" data-kat="alle"><span class="emoji">🏆</span><b>Die große Runde</b>
+        <div class="info">20 zufällige Fragen aus allen Kategorien. Nur für Profis!</div></button>
+    </div>
+    <div id="start-ranking" class="rank-box versteckt"></div>
+    <div class="hinweis">💬 <b>Für den Kurs:</b> Spiel eine Runde und tippe am Ende deine Punktzahl in den Zoom-Chat — z.&nbsp;B. <i>„Code-Quiz: 7 von 8!"</i></div>
+  </section>
+
+  <!-- Fragebildschirm -->
+  <section id="quiz" class="versteckt">
+    <div class="topzeile">
+      <span id="zaehler">Frage 1/8</span>
+      <div class="balken"><div id="fortschritt"></div></div>
+      <span id="punkte">⭐ 0</span>
+    </div>
+    <div class="frage-box">
+      <span class="kat-tag" id="kat-tag"></span>
+      <div class="frage" id="frage-text"></div>
+      <div class="code versteckt" id="code-box"></div>
+      <div class="antworten" id="antworten"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="weiter" id="btn-weiter">Weiter ➜</button>
+    </div>
+  </section>
+
+  <!-- Endbildschirm -->
+  <section id="ende" class="versteckt">
+    <div class="ende">
+      <div class="big" id="ende-emoji">🎉</div>
+      <h2>Geschafft!</h2>
+      <div class="score" id="ende-score"></div>
+      <div class="rang" id="ende-rang"></div>
+      <div class="chat-tipp">💬 Tippe dein Ergebnis jetzt in den <b>Zoom-Chat</b>, z.&nbsp;B.:<br><b id="chat-vorlage"></b></div>
+      <div class="eintrag-zeile versteckt" id="ranking-eingabe">
+        <input id="name-eingabe" type="text" maxlength="20" placeholder="Dein Name" aria-label="Dein Name">
+        <button class="btn-eintragen" id="btn-eintragen">In die Bestenliste eintragen</button>
+      </div>
+      <div id="ende-ranking" class="rank-box versteckt" style="margin-bottom:18px;"></div>
+      <button class="karte nochmal" id="btn-nochmal" style="max-width:280px;"><span class="emoji">🔄</span><b>Noch eine Runde</b></button>
+    </div>
+  </section>
+</main>
+
+<footer>MidCraft Quiz — gebaut für den Programmierkurs · läuft komplett im Browser, nichts wird ins Internet gesendet</footer>
+
+<script src="fragen-codeprog.js"></script>
+<script src="fragen-minecraft.js"></script>
+<script>
+'use strict';
+
+// Hilfsfunktion: Code-Zeilen im Stil der MidCraft-Blöcke
+function c(zeilen) { return zeilen; }
+
+const FRAGEN = {
+  code: [
+    {
+      f: 'Was baut der Roboter mit diesem Programm?',
+      code: [
+        ['gruen', 'wiederhole 4 mal:'],
+        ['blau',  '   bewege vorwärts um 1'],
+        ['braun', '   platziere unten'],
+      ],
+      a: ['Einen Weg aus 4 Blöcken hinter sich', 'Einen Turm, 4 Blöcke hoch', 'Eine Mauer, 4 Blöcke breit', 'Gar nichts — das Programm ist kaputt'],
+      r: 0,
+      e: 'Er läuft jedes Mal einen Schritt und legt dann einen Block unter sich — nach 4 Runden liegt ein Weg aus 4 Blöcken.',
+    },
+    {
+      f: 'Zwei fast gleiche Programme — worin unterscheidet sich das Ergebnis?',
+      code: [
+        ['lila',  'A: vorwärts 1, dann platziere unten'],
+        ['lila',  'B: platziere unten, dann vorwärts 1'],
+      ],
+      a: ['Bei B fängt die Blockreihe ein Feld früher an', 'Gar nicht, beide bauen dasselbe', 'A baut doppelt so viele Blöcke', 'B baut die Blöcke in die Luft'],
+      r: 0,
+      e: 'Die Reihenfolge zählt! B baut zuerst (unter dem Startfeld), A macht erst den Schritt. Die Reihe liegt bei B um ein Feld verschoben.',
+    },
+    {
+      f: 'Was macht der Roboter hier?',
+      code: [
+        ['gruen', 'wiederhole solange nicht (erkennt Block vorne):'],
+        ['blau',  '   bewege vorwärts um 1'],
+      ],
+      a: ['Er läuft, bis direkt vor ihm ein Block steht — und stoppt', 'Er läuft für immer weiter', 'Er läuft genau einen Schritt', 'Er zerstört den Block vor sich'],
+      r: 0,
+      e: 'Die Schleife läuft, SOLANGE vorne frei ist. Sobald der Sensor einen Block sieht, ist die Bedingung falsch — Stopp.',
+    },
+    {
+      f: 'Wie hoch ist der Turm am Ende?',
+      code: [
+        ['gruen', 'wiederhole 5 mal:'],
+        ['blau',  '   bewege hoch um 1'],
+        ['braun', '   platziere unten'],
+      ],
+      a: ['5 Blöcke', '4 Blöcke', '6 Blöcke', '10 Blöcke'],
+      r: 0,
+      e: 'Jede Runde: einen hoch steigen, einen Block darunter setzen. 5 Runden = 5 Blöcke Turm, und der Roboter schwebt obendrauf.',
+    },
+    {
+      f: 'Wie viele Blöcke platziert dieses Programm insgesamt?',
+      code: [
+        ['gruen', 'wiederhole 3 mal:'],
+        ['gruen', '   wiederhole 4 mal:'],
+        ['braun', '      platziere vorne'],
+        ['blau',  '      bewege vorwärts um 1'],
+        ['blau',  '   bewege hoch um 1'],
+      ],
+      a: ['12', '7', '3', '4'],
+      r: 0,
+      e: 'Die innere Schleife setzt 4 Blöcke — und die äußere lässt das 3-mal passieren. 3 × 4 = 12. Schleife in Schleife = malnehmen!',
+    },
+    {
+      f: 'Was ist an diesem Programm gefährlich?',
+      code: [
+        ['gruen', 'wiederhole solange wahr:'],
+        ['blau',  '   bewege vorwärts um 1'],
+        ['blau',  '   drehe rechts'],
+      ],
+      a: ['Es hört nie von selbst auf — eine Endlosschleife', 'Der Roboter kann abstürzen', 'Es löscht die ganze Welt', 'Nichts, es stoppt nach 10 Runden'],
+      r: 0,
+      e: '„Solange wahr" ist IMMER wahr — das Programm läuft ewig im Kreis. Dafür gibt es den ⏹-Stopp-Knopf (und in MidCraft eine Notbremse).',
+    },
+    {
+      f: 'In welche Richtung schaut der Roboter nach diesem Programm?',
+      code: [
+        ['blau', 'drehe rechts'],
+        ['blau', 'drehe rechts'],
+        ['blau', 'drehe rechts'],
+        ['blau', 'drehe rechts'],
+      ],
+      a: ['In dieselbe wie am Anfang', 'Nach rechts', 'Nach hinten', 'Das kann man nicht wissen'],
+      r: 0,
+      e: 'Viermal 90 Grad = 360 Grad = eine ganze Umdrehung. Er steht wieder genau wie vorher — nur ein bisschen schwindelig. 😄',
+    },
+    {
+      f: 'Der Roboter steht vor einer Hürde (1 Block hoch). Was tut er?',
+      code: [
+        ['gruen', 'wenn (erkennt Block vorne) dann:'],
+        ['blau',  '   hoch 1 · vorwärts 2 · runter 1'],
+        ['gruen', 'ansonsten:'],
+        ['blau',  '   vorwärts 1'],
+      ],
+      a: ['Er springt über die Hürde', 'Er bleibt stehen', 'Er zerstört die Hürde', 'Er dreht um'],
+      r: 0,
+      e: 'Der Sensor sieht die Hürde → der wenn-Teil läuft: hoch, zwei vor (über das Hindernis), wieder runter. Ein programmierter Sprung!',
+    },
+  ],
+  prog: [
+    {
+      f: 'Was ist ein „Bug" in einem Programm?',
+      a: ['Ein Fehler, durch den das Programm etwas Falsches tut', 'Ein besonders schneller Befehl', 'Ein Computervirus', 'Ein geheimer Bonus-Level'],
+      r: 0,
+      e: 'Ein Bug ist ein Programmierfehler. Der Name kommt von einem echten Käfer: 1947 fand das Team von Grace Hopper eine Motte im Computer!',
+    },
+    {
+      f: 'Wozu braucht man eine Schleife?',
+      a: ['Um Befehle mehrfach auszuführen, ohne sie mehrfach zu schreiben', 'Um das Programm schöner aussehen zu lassen', 'Um Fehler automatisch zu reparieren', 'Um das Programm zu verschlüsseln'],
+      r: 0,
+      e: 'Statt 20-mal „vorwärts" zu stapeln, schreibst du es einmal in „wiederhole 20 mal". Faul sein auf die schlaue Art!',
+    },
+    {
+      f: 'Was ist eine Variable?',
+      a: ['Ein Merkzettel mit einem Namen, auf dem ein Wert steht', 'Ein Block, der den Roboter dreht', 'Ein anderes Wort für Fehler', 'Eine besonders lange Schleife'],
+      r: 0,
+      e: 'Eine Variable merkt sich einen Wert — z. B. breite = 7. Später kann man sie lesen oder ändern: breite = breite − 2.',
+    },
+    {
+      f: 'Was ist ein Algorithmus?',
+      a: ['Eine Schritt-für-Schritt-Anleitung zum Lösen einer Aufgabe', 'Eine Programmiersprache', 'Ein Computerhersteller', 'Ein Speicherchip'],
+      r: 0,
+      e: 'Wie ein Rezept: klare Schritte in klarer Reihenfolge. Ein Kuchenrezept ist ein Algorithmus — dein Burg-Programm auch!',
+    },
+    {
+      f: 'Was bedeutet „Debugging"?',
+      a: ['Fehler suchen und beheben', 'Ein Programm löschen', 'Den Computer neu starten', 'Blöcke bunt anmalen'],
+      r: 0,
+      e: 'Debugging = die Jagd nach dem Bug. Profis verbringen damit oft mehr Zeit als mit dem Schreiben — Fehler finden ist eine Superkraft.',
+    },
+    {
+      f: 'Was ist eine Funktion (auch „Unterprogramm" genannt)?',
+      a: ['Ein Programmteil mit eigenem Namen, den man immer wieder aufrufen kann', 'Ein mathematisches Zeichen', 'Der An-Knopf des Computers', 'Eine Schleife, die rückwärts läuft'],
+      r: 0,
+      e: 'Einmal „Turm" definieren, viermal aufrufen — fertig sind vier Türme. Genau so war die Burg gebaut!',
+    },
+    {
+      f: 'Mit welchen Zeichen rechnet ein Computer ganz tief im Inneren?',
+      a: ['Nur mit 0 und 1', 'Mit allen Ziffern von 0 bis 9', 'Mit Buchstaben', 'Mit Emojis'],
+      r: 0,
+      e: 'Alles — Bilder, Musik, dein Programm — besteht am Ende aus Nullen und Einsen: Strom an, Strom aus. Das nennt man Binärsystem.',
+    },
+    {
+      f: 'Der Roboter tut etwas anderes, als du wolltest. Was ist fast immer die Ursache?',
+      a: ['Das Programm sagt etwas anderes, als du gemeint hast', 'Der Computer hat schlechte Laune', 'Der Roboter ist kaputt', 'Zufall'],
+      r: 0,
+      e: 'Computer machen nie, was du MEINST — nur, was du SCHREIBST. Deshalb: Programm nochmal langsam durchgehen und wie der Roboter denken.',
+    },
+  ],
+  mc: [
+    {
+      f: 'Welches Wesen explodiert, wenn es dir zu nahe kommt?',
+      a: ['Der Creeper', 'Das Skelett', 'Der Zombie', 'Das Schaf'],
+      r: 0,
+      e: 'Tssssss... 💥 Der grüne Creeper ist wohl das berühmteste Monster des Spiels — entstanden übrigens durch einen Programmierfehler beim Schwein!',
+    },
+    {
+      f: 'Von welchem Tier bekommt man Wolle?',
+      a: ['Vom Schaf', 'Von der Kuh', 'Vom Huhn', 'Vom Fuchs'],
+      r: 0,
+      e: 'Schafe liefern Wolle — mit Färbemitteln gibt es sie in 16 Farben. Unser roter Teppich lässt grüßen!',
+    },
+    {
+      f: 'Was braucht man, um eine Fackel herzustellen?',
+      a: ['Stock + Kohle', 'Stein + Feuer', 'Holz + Eisen', 'Sand + Glas'],
+      r: 0,
+      e: 'Ein Stock und ein Stück Kohle — die einfachste Lichtquelle und der beste Schutz vor Monstern in dunklen Höhlen.',
+    },
+    {
+      f: 'Wie heißt das rote Pulver, mit dem man Schaltungen und Maschinen baut?',
+      a: ['Redstone', 'Lava-Staub', 'Rubin', 'Feuersand'],
+      r: 0,
+      e: 'Redstone ist der „Strom" des Spiels: Damit bauen Spieler Türen, Fallen und sogar ganze Computer — Programmieren mit Blöcken!',
+    },
+    {
+      f: 'Welches Material ergibt die stärksten Werkzeuge?',
+      a: ['Netherit', 'Diamant', 'Gold', 'Eisen'],
+      r: 0,
+      e: 'Diamant war lange die Nummer 1, aber Netherit (aus dem Nether) ist noch härter — es überlebt sogar Lava.',
+    },
+    {
+      f: 'Wie heißt der Drache, der als Endgegner gilt?',
+      a: ['Der Enderdrache', 'Der Feuerdrache', 'Der Netherdrache', 'Der Kristalldrache'],
+      r: 0,
+      e: 'Der Enderdrache lebt in der End-Dimension. Wer ihn besiegt, hat das Spiel offiziell „durchgespielt".',
+    },
+    {
+      f: 'Was passiert nachts im Überlebensmodus?',
+      a: ['Monster erscheinen in der Dunkelheit', 'Man kann nicht mehr bauen', 'Alle Blöcke werden unsichtbar', 'Das Spiel speichert nicht'],
+      r: 0,
+      e: 'Sobald es dunkel wird, spawnen Zombies, Skelette und Creeper. Deshalb: erste Nacht = Haus bauen (oder ein Loch graben 😄).',
+    },
+    {
+      f: 'In welchem Land wurde das Klötzchen-Spiel erfunden?',
+      a: ['Schweden', 'USA', 'Japan', 'Deutschland'],
+      r: 0,
+      e: 'Markus „Notch" Persson hat es 2009 in Schweden entwickelt — erst als kleines Hobby-Projekt. Heute ist es das meistverkaufte Spiel der Welt.',
+    },
+  ],
+};
+
+// Externe Fragen-Dateien defensiv einbinden (falls eine Datei fehlt, läuft das Quiz trotzdem)
+FRAGEN.code = FRAGEN.code.concat(window.FRAGEN_EXTRA_CODE || []);
+FRAGEN.prog = FRAGEN.prog.concat(window.FRAGEN_EXTRA_PROG || []);
+FRAGEN.mc = FRAGEN.mc.concat(window.FRAGEN_EXTRA_MC || []);
+FRAGEN.mcpro = window.FRAGEN_EXTRA_MCPRO || [];
+
+const KAT_NAMEN = { code: '🤖 Programmcode erraten', prog: '💻 Programmier-Wissen', mc: '⛏️ Klötzchenwelt-Quiz', mcpro: '💎 Experten-Wissen', alle: '🏆 Die große Runde' };
+
+let runde = [];       // gemischte Fragen der aktuellen Runde
+let idx = 0;
+let punkte = 0;
+let aktuelleKat = 'code';
+
+const $ = id => document.getElementById(id);
+
+function mischen(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function starteRunde(kat) {
+  aktuelleKat = kat;
+  const basis = kat === 'alle'
+    ? mischen([].concat(FRAGEN.code, FRAGEN.prog, FRAGEN.mc, FRAGEN.mcpro)).slice(0, 20)
+    : FRAGEN[kat];
+  if (!basis || !basis.length) return; // Kategorie ohne Fragen (z. B. externe Datei fehlt) — nicht starten
+  // Antworten mischen: richtige Antwort merken
+  runde = mischen(basis).map(fr => {
+    const paare = fr.a.map((text, i) => ({ text, richtig: i === fr.r }));
+    return { ...fr, antworten: mischen(paare) };
+  });
+  idx = 0; punkte = 0;
+  $('start').classList.add('versteckt');
+  $('ende').classList.add('versteckt');
+  $('quiz').classList.remove('versteckt');
+  zeigeFrage();
+}
+
+function zeigeFrage() {
+  const fr = runde[idx];
+  $('zaehler').textContent = `Frage ${idx + 1}/${runde.length}`;
+  $('punkte').textContent = `⭐ ${punkte}`;
+  $('fortschritt').style.width = `${(idx / runde.length) * 100}%`;
+  $('kat-tag').textContent = KAT_NAMEN[aktuelleKat];
+  $('frage-text').textContent = fr.f;
+
+  const cb = $('code-box');
+  if (fr.code) {
+    cb.innerHTML = fr.code.map(([farbe, text]) =>
+      `<span class="z ${farbe}">${text.replace(/</g, '&lt;')}</span>`).join('');
+    cb.classList.remove('versteckt');
+  } else {
+    cb.classList.add('versteckt');
+  }
+
+  const box = $('antworten');
+  box.innerHTML = '';
+  fr.antworten.forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = 'antwort';
+    btn.textContent = a.text;
+    btn.addEventListener('click', () => antwortGeklickt(btn, a));
+    box.appendChild(btn);
+  });
+
+  $('feedback').className = 'feedback';
+  $('btn-weiter').classList.remove('an');
+}
+
+function antwortGeklickt(btn, a) {
+  const fr = runde[idx];
+  document.querySelectorAll('.antwort').forEach(b => b.setAttribute('disabled', ''));
+  // richtige Antwort immer grün zeigen
+  document.querySelectorAll('.antwort').forEach(b => {
+    const passend = fr.antworten.find(x => x.text === b.textContent);
+    if (passend && passend.richtig) b.classList.add('richtig');
+  });
+  const fb = $('feedback');
+  if (a.richtig) {
+    punkte++;
+    fb.textContent = '✅ Richtig! ' + fr.e;
+    fb.className = 'feedback an gut';
+  } else {
+    btn.classList.add('falsch');
+    fb.textContent = '❌ Nicht ganz. ' + fr.e;
+    fb.className = 'feedback an schlecht';
+  }
+  $('punkte').textContent = `⭐ ${punkte}`;
+  $('btn-weiter').classList.add('an');
+  $('btn-weiter').textContent = idx + 1 < runde.length ? 'Weiter ➜' : 'Zum Ergebnis 🏁';
+}
+
+function weiter() {
+  idx++;
+  if (idx < runde.length) { zeigeFrage(); }
+  else { zeigeEnde(); }
+}
+
+function zeigeEnde() {
+  $('quiz').classList.add('versteckt');
+  $('ende').classList.remove('versteckt');
+  const n = runde.length;
+  const anteil = punkte / n;
+  let emoji, rang;
+  if (anteil === 1)        { emoji = '👑'; rang = 'Perfekt! Du bist Quiz-Champion!'; }
+  else if (anteil >= .75)  { emoji = '🏆'; rang = 'Stark! Fast alles gewusst!'; }
+  else if (anteil >= .5)   { emoji = '💪'; rang = 'Gut dabei — mehr als die Hälfte!'; }
+  else                     { emoji = '🌱'; rang = 'Guter Anfang — probier gleich nochmal!'; }
+  $('ende-emoji').textContent = emoji;
+  $('ende-score').textContent = `${punkte} von ${n} Punkten`;
+  $('ende-rang').textContent = rang;
+  const katKurz = { code: 'Code-Quiz', prog: 'Programmier-Quiz', mc: 'Klötzchen-Quiz', mcpro: 'Experten-Quiz', alle: 'Große Runde' }[aktuelleKat];
+  $('chat-vorlage').textContent = `${katKurz}: ${punkte} von ${n}!`;
+
+  // Ranking-Eingabe anbieten (nur wenn localStorage verfügbar ist)
+  if (rankingVerfuegbar()) {
+    $('ende-ranking').classList.add('versteckt');
+    $('ranking-eingabe').classList.remove('versteckt');
+    try { $('name-eingabe').value = localStorage.getItem(NAME_KEY) || ''; } catch (e) {}
+  } else {
+    $('ranking-eingabe').classList.add('versteckt');
+    $('ende-ranking').classList.add('versteckt');
+  }
+}
+
+// ---------- Ranking (Bestenliste im localStorage) ----------
+const RANK_KEY = 'midcraft-quiz-ranking';
+const NAME_KEY = 'midcraft-quiz-name';
+const KAT_EMOJI = { code: '🤖', prog: '💻', mc: '⛏️', mcpro: '💎', alle: '🏆' };
+
+function rankingVerfuegbar() {
+  try {
+    localStorage.setItem('__mcq_test', '1');
+    localStorage.removeItem('__mcq_test');
+    return true;
+  } catch (e) { return false; }
+}
+
+function ladeRanking() {
+  try {
+    const daten = JSON.parse(localStorage.getItem(RANK_KEY) || '[]');
+    return Array.isArray(daten) ? daten : [];
+  } catch (e) { return []; }
+}
+
+function speichereRanking(liste) {
+  try { localStorage.setItem(RANK_KEY, JSON.stringify(liste)); } catch (e) {}
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function zeichneRanking(el) {
+  try {
+    const liste = ladeRanking()
+      .slice()
+      .sort((a, b) => (b.prozent - a.prozent) || (b.punkte - a.punkte))
+      .slice(0, 10);
+    if (!liste.length) { el.classList.add('versteckt'); return; }
+    const medaillen = ['🥇', '🥈', '🥉'];
+    el.innerHTML = '<h3>🏆 Bestenliste auf diesem Gerät</h3>' +
+      liste.map((r, i) => {
+        const platz = medaillen[i] || (i + 1) + '.';
+        return '<div class="rank-zeile">' +
+          `<span class="platz">${platz}</span>` +
+          `<span class="rname">${escapeHtml(r.name)}</span>` +
+          `<span class="rkat">${KAT_EMOJI[r.kat] || '🎮'}</span>` +
+          `<span class="rscore">${Number(r.punkte)}/${Number(r.gesamt)}</span>` +
+          `<span class="rproz">${Number(r.prozent)}%</span>` +
+          '</div>';
+      }).join('') +
+      '<div class="rank-fuss">Die Liste gilt nur auf deinem Gerät — poste dein Ergebnis in den Zoom-Chat für das Kurs-Ranking!</div>';
+    el.classList.remove('versteckt');
+  } catch (e) {
+    try { el.classList.add('versteckt'); } catch (e2) {}
+  }
+}
+
+function ergebnisEintragen() {
+  const name = $('name-eingabe').value.trim().slice(0, 20);
+  if (!name) { $('name-eingabe').focus(); return; }
+  try {
+    localStorage.setItem(NAME_KEY, name);
+    const jetzt = new Date();
+    const datum = String(jetzt.getHours()).padStart(2, '0') + ':' + String(jetzt.getMinutes()).padStart(2, '0');
+    const liste = ladeRanking();
+    liste.push({
+      name,
+      kat: aktuelleKat,
+      punkte,
+      gesamt: runde.length,
+      prozent: runde.length ? Math.round((punkte / runde.length) * 100) : 0,
+      datum,
+    });
+    speichereRanking(liste);
+  } catch (e) {}
+  $('ranking-eingabe').classList.add('versteckt');
+  zeichneRanking($('ende-ranking'));
+}
+
+document.querySelectorAll('.karte[data-kat]').forEach(k =>
+  k.addEventListener('click', () => starteRunde(k.dataset.kat)));
+$('btn-weiter').addEventListener('click', weiter);
+$('btn-nochmal').addEventListener('click', () => {
+  $('ende').classList.add('versteckt');
+  $('start').classList.remove('versteckt');
+  zeichneRanking($('start-ranking'));
+});
+$('btn-eintragen').addEventListener('click', ergebnisEintragen);
+$('name-eingabe').addEventListener('keydown', e => {
+  if (e.key === 'Enter') ergebnisEintragen();
+});
+
+// Fragenzahlen in den Karten-Infotexten dynamisch eintragen
+document.querySelectorAll('[data-anzahl]').forEach(el => {
+  const kat = el.dataset.anzahl;
+  if (FRAGEN[kat] && FRAGEN[kat].length) el.textContent = `${FRAGEN[kat].length} Fragen.`;
+});
+
+// Bestenliste auf dem Startbildschirm anzeigen (falls Einträge existieren)
+zeichneRanking($('start-ranking'));
+</script>
+</body>
+</html>

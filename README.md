@@ -21,7 +21,7 @@ fragen-codeprog.js    Zusatzfragen: Code erraten + Programmier-Wissen
 fragen-minecraft.js   Zusatzfragen: Minecraft + Experten-Fachwissen
 fragen-codeprog2.js   Weitere Fragen: Code erraten + Programmier-Wissen
 fragen-minecraft2.js  Weitere Fragen: Minecraft + Experten-Fachwissen
-fragen-codeprog3.js   Platzhalter für die nächste Fragen-Welle
+fragen-codeprog3.js   Weitere Fragen: Code erraten + Programmier-Wissen
 fragen-minecraft3.js  Sehr schwere technische Minecraft-Expertenfragen
 fragen-mix.js         Platzhalter für gemischte Fragen
 ```

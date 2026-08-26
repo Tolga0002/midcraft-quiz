@@ -340,8 +340,8 @@
         <div class="info">Bugs, Schleifen, Variablen &amp; Co — was steckt dahinter? <span data-anzahl="prog"></span></div></button>
       <button class="karte" data-kat="mc"><span class="emoji">⛏️</span><b>Klötzchenwelt-Quiz</b>
         <div class="info">Für echte Baumeister: Fragen rund um das berühmte Klötzchen-Spiel. <span data-anzahl="mc"></span></div></button>
-      <button class="karte" data-kat="mcpro"><span class="emoji">💎</span><b>Minecraft-Experten-Wissen</b>
-        <div class="info">Nur für echte Profis: das harte Fachwissen. <span data-anzahl="mcpro"></span></div></button>
+      <button class="karte" data-kat="mcpro"><span class="emoji">💎</span><b>Minecraft-Experten-Wissen · Java Edition</b>
+        <div class="info">Nur für echte Profis: technische Java-Mechaniken. <span data-anzahl="mcpro"></span></div></button>
       <button class="karte alle" data-kat="alle"><span class="emoji">🏆</span><b>Die große Runde</b>
         <div class="info">20 zufällige Fragen aus allen Kategorien. Nur für Profis!</div></button>
     </div>
@@ -613,7 +613,7 @@ FRAGEN.prog  = FRAGEN.prog.concat(_w.FRAGEN_EXTRA_PROG || [],  _w.FRAGEN_EXTRA_P
 FRAGEN.mc    = FRAGEN.mc.concat(_w.FRAGEN_EXTRA_MC || [],      _w.FRAGEN_EXTRA_MC2 || [],    _w.FRAGEN_EXTRA_MC3 || []);
 FRAGEN.mcpro = [].concat(_w.FRAGEN_EXTRA_MCPRO || [],          _w.FRAGEN_EXTRA_MCPRO2 || [], _w.FRAGEN_EXTRA_MCPRO3 || []);
 
-const KAT_NAMEN = { code: '🤖 Programmcode erraten', prog: '💻 Programmier-Wissen', mc: '⛏️ Klötzchenwelt-Quiz', mcpro: '💎 Experten-Wissen', alle: '🏆 Die große Runde' };
+const KAT_NAMEN = { code: '🤖 Programmcode erraten', prog: '💻 Programmier-Wissen', mc: '⛏️ Klötzchenwelt-Quiz', mcpro: '💎 Experten-Wissen · Java Edition', alle: '🏆 Die große Runde' };
 
 let runde = [];       // gemischte Fragen der aktuellen Runde
 let idx = 0;

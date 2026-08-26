@@ -139,5 +139,65 @@ window.FRAGEN_EXTRA_MCPRO3 = [
     a: ['Ein ominöser Vault verlangt einen ominösen Trial-Schlüssel und bietet die schwerer zugängliche, bessere Beute', 'Ein normaler Vault kann nur im Kreativmodus geöffnet werden', 'Ein ominöser Vault enthält immer ein Drachenei', 'Normale Vaults sind einmalig, ominöse Vaults können unendlich oft geöffnet werden'],
     r: 0,
     e: 'Ominöse Vaults gehören zur anspruchsvolleren Variante der Trial Chambers. Sie brauchen einen ominösen Trial-Schlüssel, der aus den härteren Herausforderungen stammt, und können besondere bzw. bessere Belohnungen enthalten.'
+  },
+  {
+    f: 'Welche Verzauberungskombination ist auf einem normalen Rüstungsteil nicht möglich?',
+    a: ['Schutz und Feuerschutz gleichzeitig', 'Schutz und Haltbarkeit gleichzeitig', 'Schutz und Reparatur gleichzeitig', 'Schutz und Dornen gleichzeitig'],
+    r: 0,
+    e: 'Schutz, Feuerschutz, Explosionsschutz und Geschosschutz gehören zur selben Schutzfamilie und schließen sich auf demselben Rüstungsteil aus. Haltbarkeit, Reparatur und Dornen können dagegen damit kombiniert werden.'
+  },
+  {
+    f: 'Was bedeutet „Zu teuer!“ bei einer Amboss-Reparatur in der Java Edition?',
+    a: ['Die berechneten Kosten betragen mindestens 40 Erfahrungslevel und der Vorgang wird im Überlebensmodus abgelehnt', 'Der Gegenstand ist endgültig verflucht', 'Der Amboss hat keine Haltbarkeit mehr und explodiert', 'Der Vorgang kostet genau 40 Diamanten'],
+    r: 0,
+    e: 'Im Überlebensmodus verweigert der Amboss Vorgänge ab 40 Leveln. Verzauberungen, vorherige Ambossarbeiten und das Kombinieren von Gegenständen können die Kosten so weit erhöhen. Im Kreativmodus gilt diese Levelgrenze nicht.'
+  },
+  {
+    f: 'Was steuert die Spielregel „maxEntityCramming“?',
+    a: ['Wie viele schiebende Kreaturen sich standardmäßig in einem engen Raum sammeln dürfen, bevor sie durch Zusammendrängen Schaden nehmen', 'Wie viele Items in einer Truhe liegen dürfen', 'Wie viele Spieler gleichzeitig einem Server beitreten dürfen', 'Wie viele Blöcke ein Kolben bewegen kann'],
+    r: 0,
+    e: 'Der Standardwert ist 24. Werden mehr schiebende Entities auf engem Raum zusammengequetscht, erleiden sie Cramming-Schaden. Die Regel wird deshalb bei Tierfarmen und Villageranlagen oft angepasst.'
+  },
+  {
+    f: 'Was bewirkt die Spielregel „doInsomnia“?',
+    a: ['Sie bestimmt, ob Phantome nach längerer Zeit ohne Schlaf spawnen dürfen', 'Sie schaltet alle feindlichen Monster aus', 'Sie verhindert, dass Spieler im Bett schlafen können', 'Sie verlängert die Nacht für alle Spieler'],
+    r: 0,
+    e: '„Insomnia“ bezeichnet im Spiel die Zeit, die ein Spieler nicht geschlafen hat. Mit doInsomnia=false werden Phantom-Spawns verhindert — Zombies, Skelette und andere Mob-Kategorien bleiben davon unberührt.'
+  },
+  {
+    f: 'Wie kann man in Pulverschnee stehen, ohne einzusinken?',
+    a: ['Man trägt Lederschuhe; sie verhindern das Einsinken in Pulverschnee', 'Man trägt Netheritstiefel', 'Man hält einen Wassereimer in der Nebenhand', 'Man setzt einen Teppich auf den Pulverschnee'],
+    r: 0,
+    e: 'Lederschuhe schützen vor dem Einsinken. Das ist eine besondere Eigenschaft der Lederstiefel und nicht einfach eine Folge der höheren Rüstungsstufe anderer Schuhe.'
+  },
+  {
+    f: 'Wie löst ein Crafter in der Java Edition normalerweise einen Crafting-Vorgang aus?',
+    a: ['Durch die steigende Flanke eines Redstone-Signals, sofern ein gültiges Rezept eingelegt ist', 'Durch dauerhaft anliegenden Strom bei jedem Spieltick', 'Durch einen Rechtsklick mit einer Werkbank', 'Nur durch ein Signal von einem Komparator'],
+    r: 0,
+    e: 'Der Crafter arbeitet auf einen Redstone-Impuls hin, nicht ununterbrochen bei dauerhaftem Strom. Deaktivierte Slots und ein gültiges Rezept bestimmen zusätzlich, ob und welches Item hergestellt wird.'
+  },
+  {
+    f: 'Was kann ein Windstoß (Wind Charge) in der Umgebung auslösen?',
+    a: ['Er kann bestimmte Schalter und Mechanismen wie Knöpfe, Hebel, Türen oder Falltüren betätigen', 'Er kann nur Spieler wegschleudern, aber keine Blöcke beeinflussen', 'Er kann ausschließlich Feuer entzünden', 'Er ersetzt ein Redstone-Signal dauerhaft'],
+    r: 0,
+    e: 'Die Druckwelle einer Windladung kann bestimmte interaktive Blöcke auslösen oder umschalten. Darum ist sie nicht nur ein Kampfgeschoss, sondern auch ein Werkzeug für Fallen und kleine Redstone-Experimente.'
+  },
+  {
+    f: 'Wovon hängt die Farbe eines Froschlichts (Froglight) ab?',
+    a: ['Von der Variante des Frosches, der den kleinen Magmawürfel frisst', 'Von der Farbe des darunterliegenden Blocks', 'Vom Biom, in dem das Froschlicht platziert wird', 'Von der Tageszeit beim Herstellen'],
+    r: 0,
+    e: 'Temperate, kalte und warme Frösche erzeugen jeweils unterschiedliche Froschlicht-Farben, wenn sie einen kleinen Magmawürfel fressen. Die Farbe wird also beim Drop durch den Frosch bestimmt.'
+  },
+  {
+    f: 'Wie hängt ein Creaking mit seinem Creaking-Herz zusammen?',
+    a: ['Das Herz ist sein verknüpfter Schwachpunkt; der Creaking nimmt normalen Angriffsschaden nicht wie ein gewöhnlicher Mob', 'Das Herz heilt alle Mobs in der Nähe', 'Das Herz kann nur mit einer Diamantspitzhacke abgebaut werden', 'Der Creaking erscheint nur, wenn das Herz unter Wasser liegt'],
+    r: 0,
+    e: 'Beim Angriff auf den Creaking zeigen Partikel die Verbindung zum zugehörigen Herzen. Der Creaking wird nicht einfach über eine normale Lebensleiste besiegt — die Herz-Mechanik ist der entscheidende Teil seines Kampfes.'
+  },
+  {
+    f: 'Wie verteilt „Reparatur“ (Mending) Erfahrung, wenn mehrere getragene Gegenstände beschädigt sind?',
+    a: ['Für jede XP-Kugel wird zufällig ein geeigneter beschädigter Gegenstand ausgewählt, bevor übrige Erfahrung das Level auffüllt', 'Immer zuerst der Gegenstand in der Haupthand, danach alle anderen', 'Alle beschädigten Gegenstände werden gleichzeitig gleich stark repariert', 'Reparatur wirkt nur auf den Gegenstand, den man gerade ansieht'],
+    r: 0,
+    e: 'Reparatur nimmt eine geeignete beschädigte Ausrüstung aus der Auswahl und verwendet die XP zunächst dafür. Erst wenn keine passende Reparatur mehr nötig ist, landet die übrige Erfahrung im normalen Erfahrungsbalken.'
   }
 ];

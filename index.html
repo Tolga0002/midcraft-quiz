@@ -309,7 +309,9 @@
       <h2>Geschafft!</h2>
       <div class="score" id="ende-score"></div>
       <div class="rang" id="ende-rang"></div>
-      <div class="chat-tipp">💬 Tippe dein Ergebnis jetzt in den <b>Zoom-Chat</b>, z.&nbsp;B.:<br><b id="chat-vorlage"></b></div>
+      <div class="chat-tipp">💬 Schick dein Ergebnis jetzt in den <b>Zoom-Chat</b>:<br><b id="chat-vorlage"></b><br>
+        <button class="btn-eintragen" id="btn-kopieren" style="margin-top:10px;">📋 Ergebnis kopieren</button>
+        <span id="kopiert-ok" style="display:none; margin-left:8px; color:#7ed06f;">✔ Kopiert — jetzt im Zoom-Chat einfügen!</span></div>
       <div class="eintrag-zeile versteckt" id="ranking-eingabe">
         <input id="name-eingabe" type="text" maxlength="20" placeholder="Dein Name" aria-label="Dein Name">
         <button class="btn-eintragen" id="btn-eintragen">In die Bestenliste eintragen</button>
@@ -642,6 +644,8 @@ function zeigeEnde() {
   $('ende-rang').textContent = rang;
   const katKurz = { code: 'Code-Quiz', prog: 'Programmier-Quiz', mc: 'Klötzchen-Quiz', mcpro: 'Experten-Quiz', alle: 'Große Runde' }[aktuelleKat];
   $('chat-vorlage').textContent = `${katKurz}: ${punkte} von ${n}!`;
+  $('kopiert-ok').style.display = 'none';
+  $('btn-kopieren').style.display = '';
 
   // Ranking-Eingabe anbieten (nur wenn localStorage verfügbar ist)
   if (rankingVerfuegbar()) {
@@ -733,6 +737,30 @@ function ergebnisEintragen() {
 document.querySelectorAll('.karte[data-kat]').forEach(k =>
   k.addEventListener('click', () => starteRunde(k.dataset.kat)));
 $('btn-weiter').addEventListener('click', weiter);
+$('btn-kopieren').addEventListener('click', () => {
+  const text = $('chat-vorlage').textContent;
+  const zeigeOk = () => { $('kopiert-ok').style.display = 'inline'; };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(zeigeOk).catch(() => fallbackKopieren(text, zeigeOk));
+  } else {
+    fallbackKopieren(text, zeigeOk);
+  }
+});
+function fallbackKopieren(text, fertig) {
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    fertig();
+  } catch (e) {
+    // Letzter Ausweg: Text markieren lassen
+    alert('Bitte abtippen: ' + text);
+  }
+}
 $('btn-nochmal').addEventListener('click', () => {
   $('ende').classList.add('versteckt');
   $('start').classList.remove('versteckt');

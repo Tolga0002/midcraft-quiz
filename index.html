@@ -326,6 +326,11 @@
 
 <script src="fragen-codeprog.js"></script>
 <script src="fragen-minecraft.js"></script>
+<script src="fragen-codeprog2.js"></script>
+<script src="fragen-minecraft2.js"></script>
+<script src="fragen-codeprog3.js"></script>
+<script src="fragen-minecraft3.js"></script>
+<script src="fragen-mix.js"></script>
 <script>
 'use strict';
 
@@ -528,10 +533,12 @@ const FRAGEN = {
 };
 
 // Externe Fragen-Dateien defensiv einbinden (falls eine Datei fehlt, läuft das Quiz trotzdem)
-FRAGEN.code = FRAGEN.code.concat(window.FRAGEN_EXTRA_CODE || []);
-FRAGEN.prog = FRAGEN.prog.concat(window.FRAGEN_EXTRA_PROG || []);
-FRAGEN.mc = FRAGEN.mc.concat(window.FRAGEN_EXTRA_MC || []);
-FRAGEN.mcpro = window.FRAGEN_EXTRA_MCPRO || [];
+// Alle Fragen-Dateien einsammeln — fehlt eine, laeuft das Quiz trotzdem.
+const _w = window;
+FRAGEN.code  = FRAGEN.code.concat(_w.FRAGEN_EXTRA_CODE || [],  _w.FRAGEN_EXTRA_CODE2 || [],  _w.FRAGEN_EXTRA_CODE3 || []);
+FRAGEN.prog  = FRAGEN.prog.concat(_w.FRAGEN_EXTRA_PROG || [],  _w.FRAGEN_EXTRA_PROG2 || [],  _w.FRAGEN_EXTRA_PROG3 || []);
+FRAGEN.mc    = FRAGEN.mc.concat(_w.FRAGEN_EXTRA_MC || [],      _w.FRAGEN_EXTRA_MC2 || [],    _w.FRAGEN_EXTRA_MC3 || []);
+FRAGEN.mcpro = [].concat(_w.FRAGEN_EXTRA_MCPRO || [],          _w.FRAGEN_EXTRA_MCPRO2 || [], _w.FRAGEN_EXTRA_MCPRO3 || []);
 
 const KAT_NAMEN = { code: '🤖 Programmcode erraten', prog: '💻 Programmier-Wissen', mc: '⛏️ Klötzchenwelt-Quiz', mcpro: '💎 Experten-Wissen', alle: '🏆 Die große Runde' };
 

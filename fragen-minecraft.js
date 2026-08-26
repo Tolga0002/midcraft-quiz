@@ -9,9 +9,9 @@ window.FRAGEN_EXTRA_MC = [
   },
   {
     f: 'Woraus wird ein Ofen hergestellt?',
-    a: ['8 Bruchstein', '8 Eisenbarren', '8 Erde', '8 Holzbretter'],
+    a: ['8 Bruchstein, Schwarzstein oder Bruchtiefenschiefer', '8 Eisenbarren', '8 Erde', '8 Holzbretter'],
     r: 0,
-    e: 'Acht Bruchstein (Cobblestone) rund um ein leeres Mittelfeld ergeben einen Ofen. Darin kann man Essen braten und Erze zu Barren schmelzen.'
+    e: 'Acht geeignete Steinblöcke — Bruchstein, Schwarzstein oder Bruchtiefenschiefer — rund um ein leeres Mittelfeld ergeben einen Ofen. Darin kann man unter anderem Essen garen und Rohmetalle oder Erze schmelzen.'
   },
   {
     f: 'Was passiert, wenn du nachts in einem Bett schläfst?',
@@ -57,9 +57,9 @@ window.FRAGEN_EXTRA_MC = [
   },
   {
     f: 'Was bewirkt Knochenmehl bei Pflanzen?',
-    a: ['Sie wachsen sofort schneller', 'Sie werden giftig', 'Sie leuchten im Dunkeln', 'Sie werfen doppelte Ernte ab'],
+    a: ['Es beschleunigt ihr Wachstum', 'Sie werden giftig', 'Sie leuchten im Dunkeln', 'Sie werfen doppelte Ernte ab'],
     r: 0,
-    e: 'Knochenmehl wirkt wie Turbo-Dünger und lässt Getreide, Setzlinge und mehr schneller wachsen. Man stellt es aus Knochen her, die Skelette fallen lassen.'
+    e: 'Knochenmehl wirkt wie Dünger und lässt viele Pflanzen sofort um Wachstumsstufen vorankommen; je nach Pflanze und Zufall ist sie danach aber nicht zwingend schon ausgewachsen. Man stellt Knochenmehl unter anderem aus Knochen her.'
   },
   {
     f: 'Wie lange dauert ein kompletter Tag-Nacht-Zyklus in Minecraft (Echtzeit)?',
@@ -120,9 +120,9 @@ window.FRAGEN_EXTRA_MCPRO = [
   },
   {
     f: 'Was macht die Verzauberung Reparatur (Mending)?',
-    a: ['Aufgesammelte Erfahrung repariert den Gegenstand statt Level zu geben', 'Der Gegenstand repariert sich jede Nacht von selbst', 'Der Gegenstand kann nie kaputtgehen', 'Der Amboss repariert kostenlos'],
+    a: ['Aufgesammelte Erfahrung repariert zuerst den beschädigten Gegenstand', 'Der Gegenstand repariert sich jede Nacht von selbst', 'Der Gegenstand kann nie kaputtgehen', 'Der Amboss repariert kostenlos'],
     r: 0,
-    e: 'XP-Kugeln fließen zuerst in die Haltbarkeit des Gegenstands. So halten Werkzeuge praktisch ewig — deshalb ist Reparatur eine der begehrtesten Verzauberungen überhaupt.'
+    e: 'XP-Kugeln reparieren zuerst einen geeigneten beschädigten Gegenstand mit Reparatur; überschüssige Erfahrung kann danach weiterhin dem Erfahrungsbalken zugutekommen. So können Werkzeuge bei regelmäßigem XP-Nachschub praktisch ewig halten.'
   },
   {
     f: 'Was kann ein Redstone-Komparator, was ein Verstärker nicht kann?',
@@ -158,7 +158,7 @@ window.FRAGEN_EXTRA_MCPRO = [
     f: 'Wodurch bekommt ein arbeitsloser Dorfbewohner seinen Beruf?',
     a: ['Durch einen freien Arbeitsblock in seiner Nähe', 'Durch Füttern mit Brot', 'Durch Handel mit dem Spieler', 'Durch Schlafen in einem bestimmten Bett'],
     r: 0,
-    e: 'Jeder Beruf gehört zu einem Block: Lesepult macht den Bibliothekar, Kompostierer den Bauern, Amboss-Nachbar Schmiedetisch den Werkzeugschmied. Baust du den Block ab, verliert er den Job wieder.'
+    e: 'Jeder Beruf gehört zu einem Arbeitsblock: Ein Lesepult macht den Bibliothekar, ein Komposter den Bauern und ein Schmiedetisch den Werkzeugschmied. Ein noch nicht gehandelter Dorfbewohner kann seinen Beruf wieder verlieren, wenn sein Arbeitsblock entfernt wird.'
   },
   {
     f: 'Wie heilt man einen Zombie-Dorfbewohner?',
@@ -188,7 +188,7 @@ window.FRAGEN_EXTRA_MCPRO = [
     f: 'Welchen Effekt verpasst dir der Große Wächter (Elder Guardian) im Ozeanmonument?',
     a: ['Bergbaumüdigkeit (Abbaulähmung)', 'Blindheit', 'Vergiftung', 'Levitation'],
     r: 0,
-    e: 'Der Elder Guardian belegt dich mit Bergbaumüdigkeit III, wodurch du Blöcke extrem langsam abbaust. Es gibt drei davon pro Monument — erst wenn alle besiegt sind, hört der Fluch auf.'
+    e: 'Der Elder Guardian belegt Spieler in Reichweite regelmäßig mit Bergbaumüdigkeit III, wodurch Blöcke extrem langsam abgebaut werden. In einem Monument entstehen drei Große Wächter; nach dem letzten kann der vorhandene Effekt noch auslaufen oder mit Milch entfernt werden, wird aber nicht erneut aufgefrischt.'
   },
   {
     f: 'Welcher Mob lässt das Totem der Unsterblichkeit fallen?',
@@ -215,9 +215,9 @@ window.FRAGEN_EXTRA_MCPRO = [
     e: 'Pro Verzauberung braucht man 1 bis 3 Lapislazuli plus Level. Für Level-30-Verzauberungen müssen außerdem 15 Bücherregale mit einem Block Abstand um den Tisch stehen.'
   },
   {
-    f: 'Bei welchem Lichtlevel spawnen Monster seit Version 1.18?',
-    a: ['Nur bei Lichtlevel 0', 'Bei Lichtlevel 7 oder weniger', 'Bei jedem Lichtlevel unter 15', 'Nur bei Lichtlevel 4 oder weniger'],
+    f: 'Bei welchem Block-Lichtlevel spawnen die meisten gewöhnlichen Oberwelt-Monster seit Version 1.18?',
+    a: ['Nur bei Block-Lichtlevel 0', 'Bei Block-Lichtlevel 7 oder weniger', 'Bei jedem Block-Lichtlevel unter 15', 'Nur bei Block-Lichtlevel 4 oder weniger'],
     r: 0,
-    e: 'Seit dem Höhlen-Update 1.18 spawnen Monster nur noch bei Lichtlevel 0 statt wie früher bei 7 oder weniger. Schon eine schwache Lichtquelle macht einen Bereich damit komplett spawnsicher.'
+    e: 'Seit dem Höhlen-Update 1.18 brauchen die meisten gewöhnlichen Oberwelt-Monster Block-Lichtlevel 0 statt wie früher 7 oder weniger. Für einzelne Mobs und besondere Spawnarten gelten Ausnahmen; außerdem kann Himmelslicht das Spawnen weiter verhindern.'
   }
 ];

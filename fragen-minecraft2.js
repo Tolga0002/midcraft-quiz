@@ -32,13 +32,13 @@ window.FRAGEN_EXTRA_MC2 = [
     f: 'Was können Spinnen, was die meisten anderen Monster nicht können?',
     a: ['Senkrechte Wände hochklettern', 'Unter Wasser atmen', 'Durch Türen gehen', 'Sich unsichtbar machen'],
     r: 0,
-    e: 'Spinnen klettern wie an einer Leiter jede Wand hinauf. Tagsüber werden sie friedlich und greifen nur an, wenn man sie zuerst angreift.'
+    e: 'Spinnen können senkrechte Flächen hochklettern. Bei ausreichend hellem Umgebungslicht sind sie neutral und greifen nur an, wenn sie bereits ein Ziel haben oder zuerst angegriffen werden — bloße Tageszeit allein garantiert das im Schatten nicht.'
   },
   {
     f: 'Womit kann man einen TNT-Block zünden?',
     a: ['Mit einem Feuerzeug oder einem Redstone-Signal', 'Nur mit einer Fackel', 'Indem man ihn mit der Faust schlägt', 'Mit einem Wassereimer'],
     r: 0,
-    e: 'Feuerzeug, Redstone-Signal oder Feuer bringen TNT zum Zünden. Aha-Fakt: Explodiert TNT unter Wasser, zerstört es keine Blöcke — nur Kreaturen nehmen Schaden.'
+    e: 'Feuerzeug, Redstone-Signal oder Feuer bringen TNT zum Zünden. Aha-Fakt: Untergetauchtes TNT zerstört normalerweise keine Blöcke, kann aber Kreaturen, fallengelassene Items und manche andere Entities beschädigen.'
   },
   {
     f: 'Woraus baut man ein Boot?',
@@ -60,9 +60,9 @@ window.FRAGEN_EXTRA_MC2 = [
   },
   {
     f: 'Worauf können Kakteen wachsen?',
-    a: ['Nur auf Sand', 'Auf jedem Erdblock', 'Nur auf Stein', 'Auf Ackerboden'],
+    a: ['Auf Sand, rotem Sand, verdächtigem Sand oder einem anderen Kaktus', 'Auf jedem Erdblock', 'Nur auf Stein', 'Auf Ackerboden'],
     r: 0,
-    e: 'Kakteen wachsen nur auf Sand und verletzen jeden, der sie berührt. Aha-Fakt: Kakteen zerstören Items, die auf sie fallen — viele Spieler nutzen sie als Mülleimer.'
+    e: 'Kakteen lassen sich auf Sand, rotem Sand, verdächtigem Sand oder einem anderen Kaktus platzieren und brauchen seitlich Platz. Sie verletzen viele Wesen bei Berührung und zerstören Items, die mit ihnen kollidieren.'
   },
   {
     f: 'Was entsteht, wenn Wasser auf eine Lavaquelle fließt?',
@@ -98,7 +98,7 @@ window.FRAGEN_EXTRA_MC2 = [
     f: 'Wohin zeigt die Nadel eines normalen Kompasses?',
     a: ['Zum Weltspawnpunkt', 'Zum eigenen Bett', 'Immer nach Norden', 'Zum nächsten Dorf'],
     r: 0,
-    e: 'Der Kompass zeigt immer zum ursprünglichen Weltspawn — nicht zum Bett! Aha-Fakt: Im Nether und im Ende dreht sich die Nadel nur wild im Kreis.'
+    e: 'Der Kompass zeigt zum aktuellen Weltspawnpunkt — nicht zum persönlichen Bett! In Nether und Ende dreht sich die Nadel ohne Bindung an einen Leitstein nur wild im Kreis.'
   },
   {
     f: 'Wie sammelt man Honig, ohne die Bienen wütend zu machen?',
@@ -137,16 +137,16 @@ window.FRAGEN_EXTRA_MC2 = [
     e: 'Vier Eisenblöcke in T-Form und ein geschnitzter Kürbis als Kopf erwecken den Golem zum Leben. Aha-Fakt: Selbst gebaute Eisengolems greifen ihren Erbauer niemals an.'
   },
   {
-    f: 'Wie bekommt man im Überlebensmodus einen Sattel?',
-    a: ['Nur durch Finden, Angeln oder Handeln — craften geht nicht', 'Aus 5 Lederstücken und 2 Eisenbarren craften', 'Aus 3 Lederstücken auf der Werkbank', 'Man bekommt ihn automatisch beim ersten Pferd'],
+    f: 'Wie kann man in der aktuellen Java Edition einen Sattel craften?',
+    a: ['Aus 3 Lederstücken und 1 Eisenbarren', 'Aus 5 Lederstücken und 2 Eisenbarren', 'Aus 3 Lederstücken ohne weitere Zutat', 'Sättel lassen sich nicht craften'],
     r: 0,
-    e: 'Der Sattel ist eines der wenigen Items ohne Craftingrezept. Man findet ihn in Truhen, angelt ihn mit Glück aus dem Wasser oder kauft ihn beim Gerber-Dorfbewohner.'
+    e: 'Seit Java Edition 1.21.6 lassen sich Sättel aus 3 Lederstücken und 1 Eisenbarren craften. Einige ältere Fundorte enthalten stattdessen Leder; weitere Sättel bekommt man unter anderem durch Handeln oder von bereits gesattelten Kreaturen.'
   },
   {
     f: 'Wofür benutzt man ein Leitseil (Leine)?',
     a: ['Um Tiere anzubinden und hinter sich herzuführen', 'Um schneller zu klettern', 'Um Monster zu fangen', 'Um Gegenstände aus der Ferne aufzuheben'],
     r: 0,
-    e: 'Mit dem Leitseil aus 4 Fäden und einem Schleimball führt man Tiere mit sich. Aha-Fakt: Man kann das Seil sogar an einem Zaunpfahl festknoten, damit das Tier dort wartet.'
+    e: 'Mit dem Leitseil führt man geeignete Kreaturen mit sich. Seit Java Edition 1.21.6 werden 2 Leinen aus insgesamt 5 Fäden hergestellt; der frühere Schleimball ist nicht mehr nötig. Eine Leine kann außerdem an einem Zaun festgeknotet werden.'
   }
 ];
 
@@ -185,7 +185,7 @@ window.FRAGEN_EXTRA_MCPRO2 = [
     f: 'Was passiert, wenn ein Trichter (Hopper) ein Redstone-Signal erhält?',
     a: ['Er wird gesperrt und transportiert keine Items mehr', 'Er transportiert Items doppelt so schnell', 'Er wirft alle Items aus', 'Er zieht Items aus größerer Entfernung an'],
     r: 0,
-    e: 'Ein Redstone-Signal sperrt den Trichter komplett. Aha-Fakt: Ein ungesperrter Trichter bewegt genau 1 Item alle 0,4 Sekunden — also 2,5 Items pro Sekunde.'
+    e: 'Ein Redstone-Signal sperrt den Trichter komplett. Ein ungesperrter Trichter überträgt in Java pro Transferrichtung normalerweise 1 Item je 0,4 Sekunden; Ziehen und Weitergeben können dabei beide stattfinden.'
   },
   {
     f: 'Was ist der wichtigste Unterschied zwischen Schleimblock und Honigblock bei Kolben-Maschinen?',
@@ -203,13 +203,13 @@ window.FRAGEN_EXTRA_MCPRO2 = [
     f: 'Wie funktioniert der Tauschhandel mit Piglins?',
     a: ['Man wirft ihnen einen Goldbarren zu und erhält dafür ein zufälliges Item', 'Man öffnet per Rechtsklick ein Handelsmenü wie bei Dorfbewohnern', 'Man legt Gold in eine Truhe neben ihnen', 'Man tauscht Smaragde gegen Netherit'],
     r: 0,
-    e: 'Ein zugeworfener oder überreichter Goldbarren wird einige Sekunden begutachtet, dann wirft der Piglin ein zufälliges Item zurück — mit Glück sogar Enderperlen. Ohne Goldrüstung greifen Piglins aber sofort an!'
+    e: 'Ein zugeworfener oder überreichter Goldbarren wird einige Sekunden begutachtet, dann wirft der Piglin ein zufälliges Item zurück — mit Glück sogar Enderperlen. Erwachsene gewöhnliche Piglins sind Spielern ohne Goldrüstung gegenüber feindlich; Piglin-Barbaren greifen unabhängig von der Rüstung an, Baby-Piglins dagegen nicht.'
   },
   {
     f: 'Was passiert, wenn man sich mit einer Enderperle teleportiert?',
-    a: ['Man erleidet beim Ankommen 5 Schadenspunkte (2,5 Herzen)', 'Man teleportiert sich völlig ohne Nachteil', 'Man wird für 5 Sekunden unsichtbar', 'Man verliert eine Erfahrungsstufe'],
+    a: ['Man erhält beim Ankommen 5 Punkte Basisschaden (2,5 Herzen), bevor Schutzwirkungen berücksichtigt werden', 'Man teleportiert sich völlig ohne Nachteil', 'Man wird für 5 Sekunden unsichtbar', 'Man verliert eine Erfahrungsstufe'],
     r: 0,
-    e: 'Die Teleportation kostet immer 5 Schadenspunkte, egal wie kurz die Strecke ist. Profis nutzen Enderperlen trotzdem, um Stürze zu überleben oder durch kleine Lücken zu schlüpfen.'
+    e: 'Die Teleportation verursacht unabhängig von der Strecke 5 Punkte Basisschaden. Verzauberungen wie Schutz oder Federfall und andere Schutzwirkungen können den tatsächlich verlorenen Schaden verringern.'
   },
   {
     f: 'Was bewirkt das Essen einer Chorusfrucht?',
@@ -245,16 +245,16 @@ window.FRAGEN_EXTRA_MCPRO2 = [
     f: 'Wo funktioniert der Respawn-Anker als Wiedereinstiegspunkt?',
     a: ['Nur im Nether — in der Oberwelt explodiert er beim Benutzen', 'In jeder Dimension', 'Nur in der Oberwelt', 'Nur im Ende'],
     r: 0,
-    e: 'Der Respawn-Anker ist das Nether-Gegenstück zum Bett und wird mit Leuchtstein aufgeladen — bis zu 4 Ladungen. In der Oberwelt explodiert er beim Benutzen, genau wie ein Bett im Nether.'
+    e: 'Der Respawn-Anker ist das Nether-Gegenstück zum Bett und wird mit Leuchtstein aufgeladen — bis zu 4 Ladungen. In Oberwelt und Ende explodiert er beim Versuch, den Spawnpunkt zu setzen, ähnlich wie ein Bett in Nether und Ende.'
   },
   {
     f: 'Was passiert, wenn man einen Kompass an einem Leitstein (Lodestone) benutzt?',
-    a: ['Der Kompass zeigt ab dann dauerhaft auf diesen Leitstein', 'Der Kompass zeigt zum nächsten Netherportal', 'Der Leitstein wird zum neuen Weltspawn', 'Der Kompass wird zerstört'],
+    a: ['Der Kompass zeigt auf diesen Leitstein, solange beide in derselben Dimension sind und der Leitstein existiert', 'Der Kompass zeigt zum nächsten Netherportal', 'Der Leitstein wird zum neuen Weltspawn', 'Der Kompass wird zerstört'],
     r: 0,
-    e: 'Ein Rechtsklick verbindet den Kompass mit dem Leitstein — er zeigt dann sogar im Nether und im Ende zuverlässig dorthin. Der Leitstein selbst kostet allerdings einen ganzen Netheritbarren.'
+    e: 'Ein Rechtsklick verbindet den Kompass mit dem Leitstein. Er zeigt in jeder Dimension zuverlässig dorthin, solange Kompass und Leitstein in derselben Dimension sind und der Leitstein noch existiert. Seit Java Edition 1.21.5 wird der Leitstein aus 1 Eisenbarren und 8 gemeißelten Steinziegeln hergestellt.'
   },
   {
-    f: 'Was tut ein Sculk-Katalysator, wenn in seiner Nähe ein Mob stirbt?',
+    f: 'Was tut ein Sculk-Katalysator, wenn in seiner Nähe ein Mob stirbt, der Erfahrung fallen lassen würde?',
     a: ['Er absorbiert die Erfahrung und breitet Sculk auf den umliegenden Blöcken aus', 'Er belebt den Mob als Sculk-Version wieder', 'Er ruft den Warden herbei', 'Er erzeugt einen Redstone-Impuls der Stärke 15'],
     r: 0,
     e: 'Der Katalysator "blüht" auf, schluckt die XP des toten Mobs und überzieht die Umgebung mit Sculk. So kann man den Deep-Dark-Bewuchs sogar in die eigene Basis holen.'
@@ -263,13 +263,13 @@ window.FRAGEN_EXTRA_MCPRO2 = [
     f: 'Was bewirkt die Dreizack-Verzauberung "Kanalisierung" (Channeling)?',
     a: ['Bei Gewitter schlägt ein Blitz in getroffene Ziele ein', 'Der Dreizack kehrt automatisch zurück', 'Der Dreizack zieht den Werfer mit sich', 'Der Dreizack macht unter Wasser doppelten Schaden'],
     r: 0,
-    e: 'Trifft der geworfene Dreizack bei Gewitter ein Ziel, fährt ein Blitz herab. Aha-Fakt: So verwandelt man Creeper gezielt in geladene Creeper — die Zutat für Mob-Köpfe.'
+    e: 'Trifft der geworfene Dreizack bei Gewitter ein Ziel unter freiem Himmel, fährt ein Blitz herab. So verwandelt man Creeper gezielt in geladene Creeper, mit denen sich bestimmte Mob-Köpfe erzeugen lassen.'
   },
   {
     f: 'Wie kann man dem Laserangriff eines Wächters (Guardian) entgehen?',
     a: ['Die Sichtlinie unterbrechen, bevor der Laser fertig aufgeladen ist', 'Schnell wegschwimmen, wenn der Laser abgefeuert wurde', 'Einen Schild in Laserrichtung halten', 'Unsichtbarkeitstrank trinken — der Laser trifft trotzdem nie'],
     r: 0,
-    e: 'Der Laser lädt sich einige Sekunden sichtbar auf — versteckt man sich rechtzeitig hinter einem Block, bricht der Angriff ab. Ist er einmal voll aufgeladen, trifft der Schaden garantiert.'
+    e: 'Der Laser lädt sich einige Sekunden sichtbar auf. Unterbricht man die Sichtlinie rechtzeitig mit einem festen Block, wird der Angriff abgebrochen; ein Schild allein blockiert den Strahl nicht.'
   },
   {
     f: 'Wodurch kann in einem Dorf auf natürliche Weise ein Eisengolem entstehen?',
@@ -281,7 +281,7 @@ window.FRAGEN_EXTRA_MCPRO2 = [
     f: 'Wie startet man einen Überfall (Raid) auf ein Dorf?',
     a: ['Mit dem Statuseffekt "Böses Omen" ein Dorf betreten', 'Nachts eine Glocke im Dorf läuten', '10 Dorfbewohner hintereinander schubsen', 'Ein Banner in der Dorfmitte platzieren'],
     r: 0,
-    e: 'Wer mit "Bösem Omen" ein Dorf betritt, löst Angriffswellen von Illagern aus. Aha-Fakt: Seit Version 1.21 droppt der besiegte Banner-Anführer eine "Unheilvolle Flasche", die diesen Effekt beim Trinken verleiht.'
+    e: 'Seit Version 1.21 erhält man "Böses Omen" durch das Trinken einer unheilvollen Flasche. Beim Betreten eines Dorfes wird daraus zunächst für 30 Sekunden "Überfall-Omen"; läuft dieser Effekt ab, beginnen die Angriffswellen. Milch kann den Effekt vorher entfernen.'
   },
   {
     f: 'Was passiert im Hardcore-Modus, wenn der Spieler stirbt?',

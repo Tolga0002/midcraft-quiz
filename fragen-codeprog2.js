@@ -135,13 +135,13 @@ window.FRAGEN_EXTRA_CODE2 = [
       ['blau', '      bewege vorwärts um 1']
     ],
     a: [
-      '10 Blöcke, denn die innere Schleife läuft 2 × 5 = 10-mal.',
+      'Nur 1 Block: Danach rempelt der Agent bei jedem Vorwärts-Befehl gegen diesen Block.',
       '7 Blöcke, denn 2 + 5 = 7.',
       '5 Blöcke, denn nur die innere Schleife platziert.',
-      '25 Blöcke, denn 5 × 5 = 25.'
+      '10 Blöcke, denn die innere Schleife läuft insgesamt 2 × 5-mal.'
     ],
     r: 0,
-    e: 'Bei verschachtelten Schleifen multiplizierst du: Die äußere Schleife startet die innere 2-mal, und die innere platziert jedes Mal 5 Blöcke. 2 × 5 = 10. Merksatz: Schleife in Schleife = mal rechnen, nicht plus!'
+    e: 'Beim ersten Durchlauf setzt der Agent einen Stein direkt vor sich. Anschließend kann er nicht in diese belegte Zelle laufen: Der Vorwärts-Befehl ist ein Rempler. Alle weiteren Platzier- und Laufbefehle zielen deshalb auf dieselbe belegte Zelle und bewirken nichts — am Ende steht nur 1 Block.'
   },
   {
     f: 'Wie oft wird die Funktion "säule" insgesamt aufgerufen?',
@@ -226,13 +226,13 @@ window.FRAGEN_EXTRA_CODE2 = [
       ['blau', '      bewege vorwärts um 1']
     ],
     a: [
-      'Der Agent folgt der Mauer an seiner linken Seite — auch um Ecken herum. Das ist ein "Wandfolger".',
+      'Solange links eine Mauer ist, läuft er geradeaus; sobald links frei ist, biegt er links ab.',
       'Der Agent dreht sich 20-mal im Kreis, ohne sich vom Fleck zu bewegen.',
       'Der Agent zerstört die Mauer Stück für Stück.',
       'Der Agent läuft immer geradeaus, egal was links ist.'
     ],
     r: 0,
-    e: 'Solange links eine Mauer ist, geht er einfach geradeaus an ihr entlang. Endet die Mauer (links ist frei), biegt er links ab und bleibt so an ihr dran. So folgt er der Wand wie mit der linken Hand daran entlang. Mit diesem Trick ("Linke-Hand-Regel") findet man sogar aus vielen Labyrinthen heraus!'
+    e: 'Solange links eine Mauer ist, geht er geradeaus. Ist links frei, dreht er nach links und geht einen Schritt. Das ähnelt einem Wandfolger, ist aber noch keine vollständige Linke-Hand-Regel: Steht bei einer Innenkurve zusätzlich vorne ein Block, fehlt hier ein Rechtsabbiege-Fall und der Agent würde dagegen rempeln.'
   },
   {
     f: 'Wie viele Felder bewegt sich der Agent?',

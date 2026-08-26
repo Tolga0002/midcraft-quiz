@@ -71,6 +71,30 @@
     line-height: 1.5;
   }
 
+  .spieler-eingabe {
+    margin-top: 18px;
+    background: var(--panel);
+    border: 2px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .spieler-eingabe label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .spieler-eingabe input {
+    width: 100%;
+    background: var(--panel2);
+    border: 2px solid #3f4d61;
+    border-radius: 10px;
+    color: var(--text);
+    padding: 10px 12px;
+    font-size: 1rem;
+  }
+  .spieler-eingabe input:focus { outline: none; border-color: var(--blau); }
+  .name-fehler { color: #ffb0b0; font-size: .85rem; margin-top: 7px; }
+
   .topzeile {
     display: flex;
     justify-content: space-between;
@@ -79,6 +103,19 @@
     font-size: .92rem;
     color: var(--muted);
   }
+  .zurueck {
+    background: transparent;
+    border: 1px solid #3f4d61;
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: .85rem;
+    padding: 6px 9px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .zurueck:hover { border-color: var(--blau); color: var(--text); }
+  .zurueck:disabled { cursor: default; opacity: .45; }
+  .quiz-aktionen { display: flex; gap: 6px; flex-shrink: 0; }
   .balken {
     flex: 1;
     height: 10px;
@@ -184,6 +221,28 @@
   .ende h2 { margin: 10px 0 4px; }
   .ende .score { font-size: 1.4rem; color: var(--gold); margin: 8px 0 4px; font-weight: 700; }
   .ende .rang { color: var(--muted); margin-bottom: 18px; }
+  .scoreboard {
+    margin: 0 auto 20px;
+    max-width: 440px;
+    background: var(--panel2);
+    border: 2px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 14px;
+    text-align: left;
+  }
+  .scoreboard h3 { font-size: 1.05rem; margin-bottom: 10px; }
+  .scoreboard-zeile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--panel);
+    border-radius: 8px;
+  }
+  .scoreboard-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .scoreboard-punkte { color: var(--gold); font-size: 1.1rem; }
+  .scoreboard-prozent { color: var(--muted); font-size: .9rem; }
+  .scoreboard-hinweis { color: var(--muted); font-size: .8rem; margin-top: 9px; }
   .ende .chat-tipp {
     background: var(--panel2);
     border-left: 4px solid var(--gold);
@@ -269,6 +328,11 @@
   <!-- Startbildschirm -->
   <section id="start">
     <p style="color:var(--muted); line-height:1.5;">Such dir eine Kategorie aus. Jede Frage hat genau eine richtige Antwort — nach dem Klick siehst du sofort die Erklärung.</p>
+    <div class="spieler-eingabe">
+      <label for="name-eingabe">Dein Name</label>
+      <input id="name-eingabe" type="text" maxlength="20" placeholder="Name eingeben" aria-label="Dein Name" autocomplete="name" autofocus>
+      <div id="name-fehler" class="name-fehler versteckt">Bitte gib zuerst deinen Namen ein.</div>
+    </div>
     <div class="karten">
       <button class="karte" data-kat="code"><span class="emoji">🤖</span><b>Programmcode erraten</b>
         <div class="info">Du siehst ein Roboter-Programm — was passiert, wenn es läuft? <span data-anzahl="code"></span></div></button>
@@ -288,6 +352,10 @@
   <!-- Fragebildschirm -->
   <section id="quiz" class="versteckt">
     <div class="topzeile">
+      <div class="quiz-aktionen">
+        <button class="zurueck" id="btn-zurueck-auswahl" type="button">← Auswahl</button>
+        <button class="zurueck" id="btn-zurueck-frage" type="button" disabled>← Zurück</button>
+      </div>
       <span id="zaehler">Frage 1/8</span>
       <div class="balken"><div id="fortschritt"></div></div>
       <span id="punkte">⭐ 0</span>
@@ -309,13 +377,18 @@
       <h2>Geschafft!</h2>
       <div class="score" id="ende-score"></div>
       <div class="rang" id="ende-rang"></div>
+      <div class="scoreboard" id="ende-scoreboard">
+        <h3>🏆 Dein Scoreboard</h3>
+        <div class="scoreboard-zeile">
+          <span class="scoreboard-name" id="scoreboard-name"></span>
+          <strong class="scoreboard-punkte" id="scoreboard-punkte"></strong>
+          <span class="scoreboard-prozent" id="scoreboard-prozent"></span>
+        </div>
+        <div class="scoreboard-hinweis">Dein Ergebnis wurde automatisch in die Bestenliste übernommen.</div>
+      </div>
       <div class="chat-tipp">💬 Schick dein Ergebnis jetzt in den <b>Zoom-Chat</b>:<br><b id="chat-vorlage"></b><br>
         <button class="btn-eintragen" id="btn-kopieren" style="margin-top:10px;">📋 Ergebnis kopieren</button>
         <span id="kopiert-ok" style="display:none; margin-left:8px; color:#7ed06f;">✔ Kopiert — jetzt im Zoom-Chat einfügen!</span></div>
-      <div class="eintrag-zeile versteckt" id="ranking-eingabe">
-        <input id="name-eingabe" type="text" maxlength="20" placeholder="Dein Name" aria-label="Dein Name">
-        <button class="btn-eintragen" id="btn-eintragen">In die Bestenliste eintragen</button>
-      </div>
       <div id="ende-ranking" class="rank-box versteckt" style="margin-bottom:18px;"></div>
       <button class="karte nochmal" id="btn-nochmal" style="max-width:280px;"><span class="emoji">🔄</span><b>Noch eine Runde</b></button>
     </div>
@@ -390,9 +463,9 @@ const FRAGEN = {
         ['blau',  '      bewege vorwärts um 1'],
         ['blau',  '   bewege hoch um 1'],
       ],
-      a: ['12', '7', '3', '4'],
+      a: ['3', '12', '7', '4'],
       r: 0,
-      e: 'Die innere Schleife setzt 4 Blöcke — und die äußere lässt das 3-mal passieren. 3 × 4 = 12. Schleife in Schleife = malnehmen!',
+      e: 'In jeder äußeren Runde setzt der Roboter genau 1 Block vor sich. Danach kann er nicht in diese belegte Zelle laufen — die restlichen Versuche sind Rempler. Anschließend steigt er ein Feld hoch. So entstehen insgesamt 3 Blöcke übereinander.',
     },
     {
       f: 'Was ist an diesem Programm gefährlich?',
@@ -495,9 +568,9 @@ const FRAGEN = {
     },
     {
       f: 'Was braucht man, um eine Fackel herzustellen?',
-      a: ['Stock + Kohle', 'Stein + Feuer', 'Holz + Eisen', 'Sand + Glas'],
+      a: ['Stock + Kohle oder Holzkohle', 'Stein + Feuer', 'Holz + Eisen', 'Sand + Glas'],
       r: 0,
-      e: 'Ein Stock und ein Stück Kohle — die einfachste Lichtquelle und der beste Schutz vor Monstern in dunklen Höhlen.',
+      e: 'Ein Stock und darüber ein Stück Kohle oder Holzkohle ergeben 4 Fackeln — eine einfache Lichtquelle und guter Schutz vor gewöhnlichen Monster-Spawns in dunklen Höhlen.',
     },
     {
       f: 'Wie heißt das rote Pulver, mit dem man Schaltungen und Maschinen baut?',
@@ -546,6 +619,8 @@ let runde = [];       // gemischte Fragen der aktuellen Runde
 let idx = 0;
 let punkte = 0;
 let aktuelleKat = 'code';
+let spielerName = '';
+let ergebnisGespeichert = false;
 
 const $ = id => document.getElementById(id);
 
@@ -559,6 +634,16 @@ function mischen(arr) {
 }
 
 function starteRunde(kat) {
+  const name = $('name-eingabe').value.trim().slice(0, 20);
+  if (!name) {
+    $('name-fehler').classList.remove('versteckt');
+    $('name-eingabe').focus();
+    return;
+  }
+  spielerName = name;
+  $('name-fehler').classList.add('versteckt');
+  try { localStorage.setItem(NAME_KEY, spielerName); } catch (e) {}
+
   aktuelleKat = kat;
   const basis = kat === 'alle'
     ? mischen([].concat(FRAGEN.code, FRAGEN.prog, FRAGEN.mc, FRAGEN.mcpro)).slice(0, 20)
@@ -569,7 +654,7 @@ function starteRunde(kat) {
     const paare = fr.a.map((text, i) => ({ text, richtig: i === fr.r }));
     return { ...fr, antworten: mischen(paare) };
   });
-  idx = 0; punkte = 0;
+  idx = 0; punkte = 0; ergebnisGespeichert = false;
   $('start').classList.add('versteckt');
   $('ende').classList.add('versteckt');
   $('quiz').classList.remove('versteckt');
@@ -581,6 +666,7 @@ function zeigeFrage() {
   $('zaehler').textContent = `Frage ${idx + 1}/${runde.length}`;
   $('punkte').textContent = `⭐ ${punkte}`;
   $('fortschritt').style.width = `${(idx / runde.length) * 100}%`;
+  $('btn-zurueck-frage').disabled = idx === 0;
   $('kat-tag').textContent = KAT_NAMEN[aktuelleKat];
   $('frage-text').textContent = fr.f;
 
@@ -599,16 +685,33 @@ function zeigeFrage() {
     const btn = document.createElement('button');
     btn.className = 'antwort';
     btn.textContent = a.text;
+    if (fr.beantwortet) {
+      btn.setAttribute('disabled', '');
+      if (a.richtig) btn.classList.add('richtig');
+      if (fr.gewaehlt === a && !a.richtig) btn.classList.add('falsch');
+    }
     btn.addEventListener('click', () => antwortGeklickt(btn, a));
     box.appendChild(btn);
   });
 
-  $('feedback').className = 'feedback';
-  $('btn-weiter').classList.remove('an');
+  const fb = $('feedback');
+  if (fr.beantwortet) {
+    fb.textContent = (fr.antwortRichtig ? '✅ Richtig! ' : '❌ Nicht ganz. ') + fr.e;
+    fb.className = `feedback an ${fr.antwortRichtig ? 'gut' : 'schlecht'}`;
+    $('btn-weiter').classList.add('an');
+    $('btn-weiter').textContent = idx + 1 < runde.length ? 'Weiter ➜' : 'Zum Ergebnis 🏁';
+  } else {
+    fb.className = 'feedback';
+    $('btn-weiter').classList.remove('an');
+  }
 }
 
 function antwortGeklickt(btn, a) {
   const fr = runde[idx];
+  if (fr.beantwortet) return;
+  fr.beantwortet = true;
+  fr.gewaehlt = a;
+  fr.antwortRichtig = a.richtig;
   document.querySelectorAll('.antwort').forEach(b => b.setAttribute('disabled', ''));
   // richtige Antwort immer grün zeigen
   document.querySelectorAll('.antwort').forEach(b => {
@@ -649,19 +752,18 @@ function zeigeEnde() {
   $('ende-emoji').textContent = emoji;
   $('ende-score').textContent = `${punkte} von ${n} Punkten`;
   $('ende-rang').textContent = rang;
+  const prozent = Math.round(anteil * 100);
+  $('scoreboard-name').textContent = spielerName;
+  $('scoreboard-punkte').textContent = `${punkte}/${n} Punkte`;
+  $('scoreboard-prozent').textContent = `${prozent}%`;
   const katKurz = { code: 'Code-Quiz', prog: 'Programmier-Quiz', mc: 'Klötzchen-Quiz', mcpro: 'Experten-Quiz', alle: 'Große Runde' }[aktuelleKat];
   $('chat-vorlage').textContent = `${katKurz}: ${punkte} von ${n}!`;
   $('kopiert-ok').style.display = 'none';
   $('btn-kopieren').style.display = '';
 
-  // Ranking-Eingabe anbieten (nur wenn localStorage verfügbar ist)
-  if (rankingVerfuegbar()) {
-    $('ende-ranking').classList.add('versteckt');
-    $('ranking-eingabe').classList.remove('versteckt');
-    try { $('name-eingabe').value = localStorage.getItem(NAME_KEY) || ''; } catch (e) {}
-  } else {
-    $('ranking-eingabe').classList.add('versteckt');
-    $('ende-ranking').classList.add('versteckt');
+  if (!ergebnisGespeichert) {
+    ergebnisEintragen();
+    ergebnisGespeichert = true;
   }
 }
 
@@ -720,8 +822,8 @@ function zeichneRanking(el) {
 }
 
 function ergebnisEintragen() {
-  const name = $('name-eingabe').value.trim().slice(0, 20);
-  if (!name) { $('name-eingabe').focus(); return; }
+  const name = spielerName;
+  if (!name || !rankingVerfuegbar()) return;
   try {
     localStorage.setItem(NAME_KEY, name);
     const jetzt = new Date();
@@ -737,13 +839,28 @@ function ergebnisEintragen() {
     });
     speichereRanking(liste);
   } catch (e) {}
-  $('ranking-eingabe').classList.add('versteckt');
   zeichneRanking($('ende-ranking'));
 }
 
 document.querySelectorAll('.karte[data-kat]').forEach(k =>
   k.addEventListener('click', () => starteRunde(k.dataset.kat)));
 $('btn-weiter').addEventListener('click', weiter);
+function zurAuswahl() {
+  runde = [];
+  idx = 0;
+  punkte = 0;
+  $('quiz').classList.add('versteckt');
+  $('ende').classList.add('versteckt');
+  $('start').classList.remove('versteckt');
+  zeichneRanking($('start-ranking'));
+}
+$('btn-zurueck-auswahl').addEventListener('click', zurAuswahl);
+$('btn-zurueck-frage').addEventListener('click', () => {
+  if (idx > 0) {
+    idx--;
+    zeigeFrage();
+  }
+});
 $('btn-kopieren').addEventListener('click', () => {
   const text = $('chat-vorlage').textContent;
   const zeigeOk = () => { $('kopiert-ok').style.display = 'inline'; };
@@ -754,28 +871,33 @@ $('btn-kopieren').addEventListener('click', () => {
   }
 });
 function fallbackKopieren(text, fertig) {
+  let ta;
   try {
-    const ta = document.createElement('textarea');
+    ta = document.createElement('textarea');
     ta.value = text;
     ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta);
     ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
+    if (!document.execCommand('copy')) throw new Error('Kopieren wurde vom Browser abgelehnt');
     fertig();
   } catch (e) {
     // Letzter Ausweg: Text markieren lassen
     alert('Bitte abtippen: ' + text);
+  } finally {
+    if (ta && ta.parentNode) ta.parentNode.removeChild(ta);
   }
 }
 $('btn-nochmal').addEventListener('click', () => {
   $('ende').classList.add('versteckt');
   $('start').classList.remove('versteckt');
+  $('name-eingabe').focus();
   zeichneRanking($('start-ranking'));
 });
-$('btn-eintragen').addEventListener('click', ergebnisEintragen);
 $('name-eingabe').addEventListener('keydown', e => {
-  if (e.key === 'Enter') ergebnisEintragen();
+  if (e.key === 'Enter') {
+    const ersteKategorie = document.querySelector('.karte[data-kat]');
+    if (ersteKategorie) ersteKategorie.click();
+  }
 });
 
 // Fragenzahlen in den Karten-Infotexten dynamisch eintragen
@@ -785,6 +907,7 @@ document.querySelectorAll('[data-anzahl]').forEach(el => {
 });
 
 // Bestenliste auf dem Startbildschirm anzeigen (falls Einträge existieren)
+try { $('name-eingabe').value = localStorage.getItem(NAME_KEY) || ''; } catch (e) {}
 zeichneRanking($('start-ranking'));
 </script>
 </body>
